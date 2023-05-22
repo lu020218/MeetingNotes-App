@@ -15,7 +15,7 @@
 </template>
 
 <script>
-const { getScreentShotDir } = require('@/common/service')
+const { getScreentShotDir } = require('../../common/service')
 
 export default {
     name: 'MeetingNotes',

@@ -12,10 +12,10 @@
 
 <script>
 import {onBeforeMount, onMounted, getCurrentInstance} from 'vue'
-import AppHeader from './components/AppHeader.vue'
-import MeetingNotes from './components/MeetingNotes.vue'
-import ToolsBar from './components/ToolsBar.vue'
-import { getNotes, getImageBase64 } from './common/service'
+import AppHeader from '../components/AppHeader.vue'
+import MeetingNotes from '../components/MeetingNotes.vue'
+import ToolsBar from '../components/ToolsBar.vue'
+import { getNotes, getImageBase64 } from '../../common/service'
 
 export default {
   name: 'App',

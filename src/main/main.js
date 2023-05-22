@@ -6,7 +6,7 @@ import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 const winURL = process.env.NODE_ENV === 'development'
-  ? `http://localhost:9080`
+  ? `http://localhost:8080`
   : `file://${__dirname}/index.html`
 
 // Scheme must be registered before the app is ready
@@ -24,7 +24,7 @@ async function createWindow() {
       
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-      nodeIntegration: true,
+      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
       contextIsolation: false,
       enableRemoteModule: true
     }
@@ -33,6 +33,7 @@ async function createWindow() {
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
+    console.log(process.env.WEBPACK_DEV_SERVER_URL)
     if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {
     createProtocol('app')
@@ -62,8 +63,9 @@ ipcMain.on('open-setting', (event, page_path) => {
   })
 
   if (!process.env.IS_TEST) setting_win.webContents.openDevTools()
-
-  setting_win.loadURL(winURL + '#' + page_path)
+  let loadURL = winURL + page_path
+  setting_win.loadURL(loadURL)
+  console.log('loadURL:' + loadURL)
 
   setting_win.on('close', () => {
     setting_win = null

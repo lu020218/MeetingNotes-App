@@ -1,14 +1,28 @@
 const { defineConfig } = require('@vue/cli-service')
+const path = require("path")
+
+function resolve(dir) {
+	return path.join(__dirname, dir)
+}
+
 module.exports = defineConfig({
   publicPath: './',
   transpileDependencies: false,
   configureWebpack: {
+    entry: './src/renderer/main.js',
+    resolve: {
+      extensions: ['.js', '.vue'],
+      alias: {
+        '@': resolve('src/renderer')
+      }
+    },
     externals: {
       'electron': 'require("electron")'
     },
   },
   pluginOptions: {
     electronBuilder: {
+      mainProcessFile: 'src/main/main.js',
       nodeIntegration: true,
       builderOptions: {
         "appId": "com.luhaishan.meetingnotes",

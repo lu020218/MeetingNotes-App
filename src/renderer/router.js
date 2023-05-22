@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-const Setting = () => import('@/pages/SettingDialog.vue')
+const Setting = () => import('../renderer/views/SettingDialog.vue')
 
 const history = createWebHistory(process.env.BASE_URL)
 
