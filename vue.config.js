@@ -11,10 +11,7 @@ module.exports = defineConfig({
   configureWebpack: {
     entry: './src/renderer/main.js',
     resolve: {
-      extensions: ['.js', '.vue'],
-      alias: {
-        '@': resolve('src/renderer')
-      }
+      extensions: ['.js', '.vue']
     },
     externals: {
       'electron': 'require("electron")'

@@ -63,7 +63,7 @@ ipcMain.on('open-setting', (event, page_path) => {
   })
 
   if (!process.env.IS_TEST) setting_win.webContents.openDevTools()
-  let loadURL = winURL + page_path
+  let loadURL = `${winURL}#${page_path}`
   setting_win.loadURL(loadURL)
   console.log('loadURL:' + loadURL)
 
