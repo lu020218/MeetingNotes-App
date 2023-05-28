@@ -19,7 +19,7 @@ module.exports = defineConfig({
   },
   pluginOptions: {
     electronBuilder: {
-      mainProcessFile: 'src/main/main.js',
+      mainProcessFile: './src/main/main.js',
       nodeIntegration: true,
       builderOptions: {
         "appId": "com.luhaishan.meetingnotes",

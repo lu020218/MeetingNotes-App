@@ -2,71 +2,28 @@
   <div class="top">
     <AppHeader title="会议笔记"/>
   </div>
-  <div class="middle">
-    <MeetingNotes :note_data="notes_data"/>
-  </div>
-  <div class="bottom">
-    <ToolsBar @add_note="chuandi_note"></ToolsBar>
-  </div>
+  <router-view v-slot="{ Component }">
+    <keep-alive>
+      <component :is="Component" />
+    </keep-alive>
+  </router-view>
 </template>
 
 <script>
-import {onBeforeMount, onMounted, getCurrentInstance} from 'vue'
-import AppHeader from '../components/AppHeader.vue'
-import MeetingNotes from '../components/MeetingNotes.vue'
-import ToolsBar from '../components/ToolsBar.vue'
-import { getNotes, getImageBase64 } from '../../common/service'
+  import AppHeader from '@/renderer/components/AppHeader.vue'
 
 export default {
   name: 'App',
   data() {
     return {
-      note_content: '',
-      notes_data: [],
-      datas: {}
     }
   },
   components: {
-    AppHeader,
-    MeetingNotes,
-    ToolsBar
+    AppHeader
   },
   methods: {
-      chuandi_note(val) {
-        console.log('app:' + val)
-        this.note_content = val
-        let length = this.notes_data.length
-        if (this.notes_data[length - 1].image.length > 0)
-        {
-          let note_text = { image: '', text: []}
-          note_text.text.push({txt: '', note: val})
-          this.notes_data.push(note_text)
-        }
-        else
-        {
-          this.notes_data[length - 1].text.push({txt: '', note: val})
-        }
-    }
   },
   setup() {
-    const ins = getCurrentInstance()
-    onBeforeMount(() => {
-      
-    }),
-    onMounted(() => {
-      // 在挂载后执行
-      let datas = getNotes('E:\\Work\\meeting-notes\\notes_tmp.json')
-      console.log('datas:' + datas.notes)
-      if (!datas) return
-
-      datas.notes.forEach(element => {
-        let note = { image: '', text: []}
-        note.image = getImageBase64(element.image)
-        console.log('img:'+element.image+', image:'+note.image)
-        note.text = element.text
-        ins.data.notes_data.push(note)
-      });
-    })
   }
 }
 </script>
@@ -87,22 +44,6 @@ export default {
 .top {
   flex: 0 0 auto;
   -webkit-app-region: drag;
-  border-style: solid;
-  border-width: 1px;
-}
-
-.middle {
-  flex: 1 1 auto;
-  height: calc(100vh - 35px - 160px)
-}
-
-.bottom {
-  flex: 0 0 auto;
-  height: 160px;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  align-items: center;
   border-style: solid;
   border-width: 1px;
 }

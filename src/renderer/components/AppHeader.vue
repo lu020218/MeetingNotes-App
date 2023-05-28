@@ -1,12 +1,26 @@
 <template>
   <div class="header">
-    <div class="title">
-        <img src="../assets/images/notes.svg" alt="">
-        <div class="title-txt">{{title}}</div>
+    <template v-if="currentRouteName == 'index'">
+      <div class="header-left">
+        <router-link to="/setting">
+          <img class="img-header-btn" src="../assets/images/setting.svg" alt="" style="-webkit-app-region: no-drag;">
+        </router-link>
+      </div>
+    </template>
+    <template v-else-if="currentRouteName == 'setting'">
+      <div class="header-left">
+        <router-link to="/">
+          <img class="img-header-btn" src="../assets/images/goback.svg" alt="" style="-webkit-app-region: no-drag;">
+        </router-link>
+      </div>
+    </template>
+    <div class="header-middle">
+      <div class="title-txt">{{title}}</div>
     </div>
-    <div class="btn-group">
-        <img src="../assets/images/setting.svg" alt="" @click="open_setting">
-        <img src="../assets/images/close.svg" alt="" @click="close_window">
+    <div class="header-right">
+      <div class="btn-group">
+        <img class="img-header-btn" src="../assets/images/close.svg" alt="" @click="close_window">
+      </div>
     </div>
   </div>
 </template>
@@ -23,7 +37,7 @@ export default {
   },
   data() {
     return {
-
+      currentRouteName: 'index'
     }
   },
   methods: {
@@ -31,8 +45,16 @@ export default {
       ipcRenderer.send('window-close')
     },
     open_setting() {
-      ipcRenderer.send('open-setting', '/setting')
+
     }
+  },
+  watch: {
+    $route(to, from) {
+      console.log('to:' + to.name + ',from:' + from.name)
+      this.currentRouteName = to.name
+    }
+  },
+  setup() {
   }
 }
 </script>
@@ -44,6 +66,10 @@ export default {
   justify-content: space-between;
   align-items: center;
   align-content: center;
+}
+.header-left {
+  padding-left: 6px;
+  padding-top: 4px;
 }
 
 .title {
@@ -61,7 +87,7 @@ export default {
   font-weight: bolder;
 }
 
-img {
+.img-header-btn {
   height: 25px;
   margin: 0 3px;
 }

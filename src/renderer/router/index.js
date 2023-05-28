@@ -1,9 +1,11 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 
-const Setting = () => import('@/renderer/views/SettingDialog.vue')
-const Index = () => import('@/renderer/views/App.vue')
+// const Setting = () => import('../views/SettingDialog.vue')
+//const Index = () => import('@/renderer/views/App.vue')
+import Index from '@/renderer/views/notes/NotesPage.vue'
+import Setting from '@/renderer/views/setting/SettingDialog.vue'
 
-const history = createWebHistory(process.env.BASE_URL)
+const history = createWebHashHistory(process.env.BASE_URL)
 
 const routers = [
     {
@@ -21,7 +23,7 @@ const routers = [
 const router = createRouter({
     history: history,
     routes: routers,
-    mode: 'hash'
+    base: '/'
 })
 
 export default router

@@ -1,13 +1,18 @@
 'use strict'
 
-import { app, protocol, BrowserWindow, ipcMain } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
+import { exportWord } from '@/common/office'
+
+const Store = require('electron-store')
+const url=require('url')
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
-const winURL = process.env.NODE_ENV === 'development'
-  ? `http://localhost:8080`
-  : `file://${__dirname}/index.html`
+
+const store = new Store()
+console.log('path:', app.getPath('userData'))
+
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -17,6 +22,8 @@ protocol.registerSchemesAsPrivileged([
 async function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
+    minWidth: 400,
+    minHeight: 800,
     width: 400,
     height: 800,
     frame: false,
@@ -40,37 +47,38 @@ async function createWindow() {
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
   }
+
+  ipcMain.on('window-close', () => {
+    console.log('app close')
+    app.exit()
+  })
+
+  ipcMain.on('save-file-dialog', (event, path) => {
+    dialog.showOpenDialog(win, {
+      title: '选择保存文件夹',
+      defaultPath: path,
+      properties: ['openDirectory']
+    }).then ( result => {
+      console.log(result.canceled)
+      console.log(result.filePaths)
+      event.returnValue = result.filePaths
+    })
+  })
+
+  ipcMain.on('set-store', (event, key, value) => {
+    store.set(key, value)
+  })
+
+  ipcMain.on('get-store', (event, key) => {
+    let value = store.get(key)
+    event.returnValue = value
+  })
+
+  ipcMain.on('export-word', (event, filePath, notes_data) => {
+    console.log(notes_data)
+    exportWord(filePath, JSON.parse(notes_data))
+  })
 }
-
-ipcMain.on('window-close', () => {
-  console.log('app close')
-  app.exit()
-})
-
-ipcMain.on('open-setting', (event, page_path) => {
-  const setting_win = new BrowserWindow({
-    width:400,
-    height:400,
-    frame: true,
-    title: '设置',
-    webPreferences: {
-      // Use pluginOptions.nodeIntegration, leave this alone
-      // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-      nodeIntegration: true,
-      contextIsolation: false,
-      enableRemoteModule: true
-    }
-  })
-
-  if (!process.env.IS_TEST) setting_win.webContents.openDevTools()
-  let loadURL = `${winURL}#${page_path}`
-  setting_win.loadURL(loadURL)
-  console.log('loadURL:' + loadURL)
-
-  setting_win.on('close', () => {
-    setting_win = null
-  })
-})
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
@@ -100,6 +108,11 @@ app.on('ready', async () => {
   //     console.error('Vue Devtools failed to install:', e.toString())
   //   }
   // }
+  protocol.registerFileProtocol('atom', (request, callback) => {
+    const filePath = url.fileURLToPath('file://' + request.url.slice('atom://'.length))
+    callback(filePath)
+  })
+
   createWindow()
 })
 

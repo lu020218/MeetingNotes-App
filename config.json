@@ -1,0 +1,19 @@
+{
+    "language": {
+        "from": "Chinese",
+        "to": "English"
+    },
+    "audio": "Mix",
+    "auto": {
+        "time": 30,
+        "cv": false
+    },
+    "screentshot": {
+        "mode": "auto",
+        "target": "welink_meeting"
+    },
+    "savedir": {
+        "temdir": "E:\\Work\\meeting-notes\\temp",
+        "exportdir": "E:\\Work\\meeting-notes\\export"
+    }
+}

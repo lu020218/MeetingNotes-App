@@ -28,6 +28,20 @@ function getNotesFromJson(filePath) {
     return notes
 }
 
+function getImageDataURL(imagePath) {
+    let imageData = fs.readFileSync(imagePath)
+    let blob = new Blob(imageData, "image/png")
+    let reader = new FileReader()
+    let dataURL = ''
+    reader.readAsDataURL(blob)
+    reader.onload = function() {
+        var windowURL = window.URL || window.webkitURL
+        dataURL = windowURL.createObjectURL(blob)
+    }
+    return dataURL
+}
+
 export const getNotes = getNotesFromJson
 export const getScreentShotDir = getScreentShotDirectory
 export const getImageBase64 = getImageFileBase64
+export const getImageURL = getImageDataURL
