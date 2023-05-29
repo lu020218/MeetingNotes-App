@@ -87,16 +87,9 @@
     flex-wrap: nowrap;
   }
   
-  .top {
-    flex: 0 0 auto;
-    -webkit-app-region: drag;
-    border-style: solid;
-    border-width: 1px;
-  }
-  
   .middle {
     flex: 1 1 auto;
-    height: calc(100vh - 35px - 160px)
+    height: calc(100vh - 35px - 163px)
   }
   
   .bottom {
@@ -106,8 +99,6 @@
     flex-direction: column;
     flex-wrap: nowrap;
     align-items: stretch;
-    border-style: solid;
-    border-width: 1px;
   }
   </style>
   

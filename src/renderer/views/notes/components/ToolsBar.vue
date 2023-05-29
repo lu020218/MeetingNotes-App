@@ -92,14 +92,14 @@ export default {
     align-items: stretch;
 }
 .input-area {
-    height: 122px;
+    height: 115px;
     width: calc(100% - 4px);
     padding: 1px;
     resize: none;
     border: none;
     outline: none;
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 9px;
+    border-bottom-right-radius: 9px;
 }
 .btn-with-text {
     font-size: 15px;

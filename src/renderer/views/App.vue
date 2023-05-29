@@ -35,7 +35,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  height: 100vh;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 16px;
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -44,7 +47,5 @@ export default {
 .top {
   flex: 0 0 auto;
   -webkit-app-region: drag;
-  border-style: solid;
-  border-width: 1px;
 }
 </style>

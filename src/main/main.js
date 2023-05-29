@@ -27,6 +27,8 @@ async function createWindow() {
     width: 400,
     height: 800,
     frame: false,
+    backgroundColor: '#00000000',
+    transparent: true,
     webPreferences: {
       
       // Use pluginOptions.nodeIntegration, leave this alone
@@ -77,6 +79,7 @@ async function createWindow() {
   ipcMain.on('export-word', (event, filePath, notes_data) => {
     console.log(notes_data)
     exportWord(filePath, JSON.parse(notes_data))
+    win.webContents.send('notes-saved')
   })
 }
 

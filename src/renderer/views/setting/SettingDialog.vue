@@ -88,6 +88,7 @@
 <script>
 import SwitchButton from '@/renderer/components/SwitchButton.vue'
 import { ipcRenderer } from 'electron'
+const {dialog}=require('electron').remote
 const Store = require('electron-store')
 const store = new Store()
 
@@ -132,6 +133,15 @@ export default {
             store.set('screentshot.target', this.screenshotTarget)
             store.set('savedir.tempDir', this.tempDir)
             store.set('savedir.exportDir', this.exportDir)
+
+            dialog.showMessageBox({
+                message: '已成功应用并保存配置文件',
+                type: 'info',
+                title: '提示',
+                buttons: ['OK']
+            }).then ( result => {
+                console.log('messagebox:' + result.response)
+            })
         },
         loadConfig: function() {
             this.languageFrom = store.get('language.from')

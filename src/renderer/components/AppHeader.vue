@@ -27,6 +27,7 @@
 
 <script>
 import { ipcRenderer } from 'electron'
+const {dialog}=require('electron').remote
 
 export default {
   name: 'AppHeader',
@@ -37,16 +38,37 @@ export default {
   },
   data() {
     return {
-      currentRouteName: 'index'
+      currentRouteName: 'index',
+      isNotesSave: false
     }
   },
   methods: {
     close_window() {
-      ipcRenderer.send('window-close')
+      if (this.isNotesSave == false) {
+          dialog.showMessageBox({
+          message: '笔记尚未保存，请确认是否关闭？',
+          type: 'question',
+          title: '提示',
+          buttons: ['OK', 'Cancel']
+        }).then ( result => {
+          console.log('messagebox:' + result.response)
+          if (result.response == '0') {
+            ipcRenderer.send('window-close')
+          }
+        })
+      }
+      else {
+        ipcRenderer.send('window-close')
+      }
     },
     open_setting() {
-
+      
     }
+  },
+  created() {
+    ipcRenderer.on('notes-saved', () => {
+      this.isNotesSave = true
+    })
   },
   watch: {
     $route(to, from) {
@@ -55,6 +77,7 @@ export default {
     }
   },
   setup() {
+    
   }
 }
 </script>
