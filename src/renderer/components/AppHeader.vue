@@ -19,6 +19,7 @@
     </div>
     <div class="header-right">
       <div class="btn-group">
+        <img class="img-header-btn" src="../assets/images/minimize.svg" alt="" @click="minimize_window">
         <img class="img-header-btn" src="../assets/images/close.svg" alt="" @click="close_window">
       </div>
     </div>
@@ -43,6 +44,9 @@ export default {
     }
   },
   methods: {
+    minimize_window() {
+      ipcRenderer.send('window-minimize')
+    },
     close_window() {
       if (this.isNotesSave == false) {
           dialog.showMessageBox({
@@ -113,6 +117,9 @@ export default {
 .img-header-btn {
   height: 25px;
   margin: 0 3px;
+}
+.img-header-btn:hover {
+  cursor: pointer;
 }
 
 .btn-group {

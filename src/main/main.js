@@ -52,7 +52,12 @@ async function createWindow() {
 
   ipcMain.on('window-close', () => {
     console.log('app close')
-    app.exit()
+    app.exit() // 直接退出应用程序
+    //win = null // 主窗口设置为null防止内存溢出
+  })
+
+  ipcMain.on('window-minimize', () => {
+    win.minimize()
   })
 
   ipcMain.on('save-file-dialog', (event, path) => {

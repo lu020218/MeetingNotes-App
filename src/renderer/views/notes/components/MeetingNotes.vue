@@ -41,6 +41,8 @@ export default {
     overflow-y: auto;
     overflow-x: hidden;
     height: 100%;
+    background-color: #f7f7f3;
+    width: 98%;
 }
 
 
@@ -68,10 +70,29 @@ export default {
     background: #ededed31;
 }
 
-/* 滚动条两端按钮 
 .note-content::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
 }
-*/
+
+.note-content::-webkit-scrollbar-button:vertical:single-button:start {
+    /* border: 1px solid red; */
+    width: 20px;
+    height: 15px;
+    /* 3px 5px 移动图片位置 */
+    background: url("@/renderer/assets/images/scrollbarTop.svg") -1px no-repeat;
+    background-size: 12px 6px;
+    cursor: pointer;
+}
+
+.note-content::-webkit-scrollbar-button:vertical:single-button:end {
+    /* border: 1px solid red; */
+    width: 20px;
+    height: 15px;
+    background: url("@/renderer/assets/images/scrollbarBottom.svg") -1px no-repeat;
+    background-size: 12px 6px;
+    cursor: pointer;
+}
 
 .note-ul {
     list-style: none;

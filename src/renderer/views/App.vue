@@ -42,6 +42,7 @@ export default {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
+  height: 100%;
 }
 
 .top {

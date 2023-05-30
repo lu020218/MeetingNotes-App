@@ -132,6 +132,9 @@ export default {
     bottom: 6px;
     right: 3px;
 }
+.commit-btn:hover {
+    cursor: pointer;
+}
 .btn-left, .btn-right {
     display: flex;
     flex-direction: row;
