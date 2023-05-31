@@ -1,5 +1,7 @@
 <template>
-  <router-view></router-view>
+  <div class="top">
+    <AppHeader title="会议笔记"/>
+  </div>
   <div class="middle">
     <MeetingNotes :note_data="notes_data"/>
   </div>
@@ -10,6 +12,7 @@
 
 <script>
 import {onBeforeMount, onMounted, getCurrentInstance} from 'vue'
+import AppHeader from '@/renderer/components/AppHeader.vue'
 import MeetingNotes from './components/MeetingNotes.vue'
 import ToolsBar from './components/ToolsBar.vue'
 import { getNotes } from '@/common/service'
@@ -26,6 +29,7 @@ export default {
     }
   },
   components: {
+    AppHeader,
     MeetingNotes,
     ToolsBar
   },
@@ -85,6 +89,11 @@ export default {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
+}
+
+.top {
+  flex: 0 0 auto;
+  -webkit-app-region: drag;
 }
 
 .middle {

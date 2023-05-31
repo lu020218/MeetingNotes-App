@@ -1,4 +1,7 @@
 <template>
+    <div class="top">
+        <AppHeader title="会议笔记"/>
+    </div>
     <div class="set-div">
         <label class="label">语言设置</label>
         <div class="lang-set">
@@ -86,6 +89,7 @@
 </template>
 
 <script>
+import AppHeader from '@/renderer/components/AppHeader.vue'
 import SwitchButton from '@/renderer/components/SwitchButton.vue'
 import { ipcRenderer } from 'electron'
 const {dialog}=require('electron').remote
@@ -112,6 +116,7 @@ export default {
         }
     },
     components: {
+        AppHeader,
         SwitchButton
     },
     mounted: function() {

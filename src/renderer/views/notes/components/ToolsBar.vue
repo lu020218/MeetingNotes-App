@@ -2,7 +2,7 @@
     <div class="btn-bar">
         <div class="btn-group">
             <div class="btn-left">
-                <div class="btn-with-text">
+                <div class="btn-with-text" @click="screenshot">
                     <img class="img-btn" src="@/renderer/assets/images/screenshot.svg" style="height: 16px;margin-right: 1px;">
                     截屏
                 </div>
@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import { ipcRenderer } from 'electron'
+
 export default {
     name: 'ToolsBar',
     data() {
@@ -39,8 +41,12 @@ export default {
         }
     },
     methods: {
+        screenshot: function() {
+            
+        },
         exportWord: function() {
-            this.$emit('export_word')
+            ipcRenderer.send('open-new-window', '/export')
+            //this.$emit('export_word')
         },
         commitNotes: function() {
             this.$emit('add_note', this.textarea)

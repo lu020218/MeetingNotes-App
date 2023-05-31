@@ -1,19 +1,19 @@
 <template>
   <div class="header">
-    <template v-if="currentRouteName == 'index'">
+    <div v-if="currentRouteName === 'index'">
       <div class="header-left">
         <router-link to="/setting">
           <img class="img-header-btn" src="../assets/images/setting.svg" alt="" style="-webkit-app-region: no-drag;">
         </router-link>
       </div>
-    </template>
-    <template v-else-if="currentRouteName == 'setting'">
+    </div>
+    <div v-else-if="currentRouteName === 'setting'">
       <div class="header-left">
         <router-link to="/">
           <img class="img-header-btn" src="../assets/images/goback.svg" alt="" style="-webkit-app-region: no-drag;">
         </router-link>
       </div>
-    </template>
+    </div>
     <div class="header-middle">
       <div class="title-txt">{{title}}</div>
     </div>
@@ -28,6 +28,7 @@
 
 <script>
 import { ipcRenderer } from 'electron'
+import { useRoute } from 'vue-router'
 const {dialog}=require('electron').remote
 
 export default {
@@ -39,7 +40,7 @@ export default {
   },
   data() {
     return {
-      currentRouteName: 'index',
+      currentRouteName: useRoute().name,
       isNotesSave: false
     }
   },

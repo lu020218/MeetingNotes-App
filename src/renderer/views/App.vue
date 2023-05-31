@@ -1,7 +1,4 @@
 <template>
-  <div class="top">
-    <AppHeader title="会议笔记"/>
-  </div>
   <router-view v-slot="{ Component }">
     <keep-alive>
       <component :is="Component" />
@@ -10,7 +7,7 @@
 </template>
 
 <script>
-  import AppHeader from '@/renderer/components/AppHeader.vue'
+  
 
 export default {
   name: 'App',
@@ -19,7 +16,7 @@ export default {
     }
   },
   components: {
-    AppHeader
+    
   },
   methods: {
   },
@@ -43,10 +40,5 @@ export default {
   flex-direction: column;
   flex-wrap: nowrap;
   height: 100%;
-}
-
-.top {
-  flex: 0 0 auto;
-  -webkit-app-region: drag;
 }
 </style>

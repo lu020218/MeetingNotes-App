@@ -13,6 +13,9 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 const store = new Store()
 console.log('path:', app.getPath('userData'))
 
+const winURL = process.env.NODE_ENV === 'development'
+  ? process.env.WEBPACK_DEV_SERVER_URL
+  : 'app://./index.html'
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -85,6 +88,38 @@ async function createWindow() {
     console.log(notes_data)
     exportWord(filePath, JSON.parse(notes_data))
     win.webContents.send('notes-saved')
+  })
+
+  let childWin = null
+  ipcMain.on('open-new-window', (event, routePath) => {
+    childWin = new BrowserWindow({
+      width: 400,
+      height: 200,
+      parent: win,
+      frame: false,
+      modal: true,
+      closable: true,
+      backgroundColor: '#00000000',
+      transparent: true,
+      webPreferences: {
+        nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
+        contextIsolation: false,
+        enableRemoteModule: true
+      }
+    })
+
+    childWin.loadURL(winURL + '#' + routePath)
+
+    childWin.webContents.openDevTools()
+
+    childWin.on('closed', () => { 
+      childWin = null
+    })
+  })
+
+  ipcMain.on('close-export-dialog', () => {
+    console.log('event: close-export-dialog')
+    childWin.destroy()
   })
 }
 
