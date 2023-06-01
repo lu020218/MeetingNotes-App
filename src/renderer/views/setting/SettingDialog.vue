@@ -271,6 +271,9 @@ export default {
     cursor: pointer;
     background-color: #7bc1fa;
 }
+.custom-button:disabled {
+    background-color: gray;
+}
 .mode-select {
     display: flex;
     flex-direction: row;
