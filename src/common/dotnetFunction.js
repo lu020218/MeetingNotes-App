@@ -1,23 +1,76 @@
-const edge = require('edge')
-const path = require('path')
+import edge from 'electron-edge-js'
+//const path = require('path')
 const fs = require('fs')
+const Store = require('electron-store')
 
-var dllPath = path.join('E:\\Work\\meeting-notes\\MeetingNotes-App', 'MeetingNotesClassLib.dll')
+var dllPath = 'E:\\Work\\meeting-notes\\MeetingNotes-App\\MeetingNotesClassLib.dll'
 
-var dotnetFunction = null
+export class dotnetService {
+    constructor() {
+        if (fs.existsSync(dllPath)) {
+            let getInstanceFunc = edge.func({
+                assemblyFile: dllPath,
+                typeName: 'MeetingNotesClassLib.Startup',
+                methodName: 'GetInstance'
+            })
+    
+            let payload = {
+    
+            }
+    
+            getInstanceFunc(payload, function(error, result) {
+                console.log('Instance:' + result)
+                this.Instance = result
+            })
+            this.dllPath = dllPath
+        } else {
+            this.Instance = null
+            this.dllPath = null
+        }
+    }
 
-if (fs.existsSync(dllPath)) {
-    // 1. use defalut mode
-    dotnetFunction = edge.func(dllPath)
+    getInstance() {
+        return this.Instance
+    }
+
+    stopRecorder() {
+        let stopFunc = edge.func({
+            assemblyFile: this.dllPath,
+            typeName: 'MeetingNotesClassLib.Startup',
+            methodName: 'Stop'
+        })
+
+        let payload = {
+
+        }
+
+        let res = null
+        stopFunc(payload, function(error, result) {
+            console.log('Stop:' + result)
+            res = result
+        })
+
+        return res
+    }
+
+    screenCapture() {
+        let screenFunc = edge.func({
+            assemblyFile: this.dllPath,
+            typeName: 'MeetingNotesClassLib.Startup',
+            methodName: 'ScreenCapturePng'
+        })
+
+        const store = new Store()
+        let payload = {
+            savePath: store.get('savedir.tempDir')
+        }
+
+        let res = null
+        screenFunc(payload, function(error, result) {
+            console.log('screenFunc:' + result)
+            res = result
+        })
+
+        return res
+    }
 }
-else {
-    console.log('dll path does not exist')
-}
-
-exports.add = function (parameter) {
-     if (dotnetFunction !== null) {
-         return dotnetFunction(parameter, true)
-     } else {
-         return 'dotnetFunction is null'
-     }
- }

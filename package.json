@@ -14,8 +14,8 @@
   "main": "background.js",
   "dependencies": {
     "core-js": "^3.8.3",
-    "edge": "^7.10.1",
     "electron-builder": "^23.6.0",
+    "electron-edge-js": "^23.0.0",
     "electron-store": "^8.1.0",
     "officegen": "^0.6.5",
     "vue": "^3.2.13",

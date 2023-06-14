@@ -21,6 +21,7 @@ module.exports = defineConfig({
     electronBuilder: {
       mainProcessFile: './src/main/main.js',
       nodeIntegration: true,
+      externals: ['electron-edge-js'],
       builderOptions: {
         "appId": "com.luhaishan.meetingnotes",
           "copyright":"Lu Haishan",

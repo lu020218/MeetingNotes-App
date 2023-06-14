@@ -4,14 +4,44 @@ import { app, protocol, BrowserWindow, ipcMain, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import { exportWord } from '@/common/office'
+import { dotnetService } from '@/common/dotnetFunction'
+import { access, constants } from 'fs'
 
 const Store = require('electron-store')
 const url=require('url')
+const path = require('path')
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 const store = new Store()
 console.log('path:', app.getPath('userData'))
+var storePath = path.join(app.getPath('userData'), 'config.json')
+access(storePath, constants.F_OK, (err) => {
+  console.log(`${storePath} ${err ? 'does not exist' : 'exists'}`)
+  if (err) {
+    store.set({
+      "language": {
+        "from": "中文",
+        "to": "原文"
+      },
+      "audio": "mix",
+      "auto": {
+        "time": "30",
+        "cv": "open"
+      },
+      "screentshot": {
+        "mode": "自动识别",
+        "target": "WeLinkMeeting"
+      },
+      "savedir": {
+        "tempDir": "E:\\Work\\meeting-notes\\MeetingNotes-App",
+        "exportDir": "E:\\Work\\meeting-notes"
+      }
+    })
+  }
+})
+
+var server = new dotnetService()
 
 const winURL = process.env.NODE_ENV === 'development'
   ? process.env.WEBPACK_DEV_SERVER_URL
@@ -52,6 +82,10 @@ async function createWindow() {
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
   }
+
+  ipcMain.on('screenshot', () => {
+    server.screenCapture()
+  })
 
   ipcMain.on('window-close', () => {
     console.log('app close')
@@ -155,6 +189,8 @@ app.on('ready', async () => {
     const filePath = url.fileURLToPath('file://' + request.url.slice('atom://'.length))
     callback(filePath)
   })
+
+  global.dllInstance = server.getInstance()
 
   createWindow()
 })

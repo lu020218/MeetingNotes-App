@@ -42,7 +42,7 @@ export default {
     },
     methods: {
         screenshot: function() {
-            
+            ipcRenderer.send('screenshot')
         },
         exportWord: function() {
             ipcRenderer.send('open-new-window', '/export')
