@@ -48,4 +48,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "E:\Work\Demo\MeetingNotesClassLib\MeetingNotesClassLib\bin\Debug\MeetingNotesClassLib.dll" "E:\Work\meeting-notes\MeetingNotes-App\MeetingNotesClassLib.dll"
+copy "E:\Work\Demo\MeetingNotesClassLib\MeetingNotesClassLib\bin\Debug\MeetingNotesClassLib.pdb" "E:\Work\meeting-notes\MeetingNotes-App\MeetingNotesClassLib.pdb"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
